@@ -1,0 +1,15 @@
+
+.main {
+  margin: auto;
+  text-align: center;
+  margin-top: 10%;
+  border: 5px solid black;
+  width: 50%;
+  padding: 10px;
+
+}
+
+button {
+  margin-left: 10px !important;
+  border: 1px solid black !important;
+}
