@@ -1,26 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import bootstrap from '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './components/Dashboard';
 import Header from './components/Layout/Header';
 import {BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import AddProject from './components/Projects/AddProject';
-
+import {Provider} from "react-redux";
+import store from "./store";
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <div className="app">
-          <Header />  
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/addProject" element={<AddProject />} />
-
-            <Route path="/addProject" component={AddProject}/>
-          </Routes>
-        </div>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <div className="app">
+            <Header />  
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/addProject" element={<AddProject />} />
+            </Routes>
+          </div>
+        </Router>
+      </Provider>
     )
   }
 }
