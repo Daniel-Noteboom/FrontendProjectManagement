@@ -1,15 +1,65 @@
-
-.main {
-  margin: auto;
-  text-align: center;
-  margin-top: 10%;
-  border: 5px solid black;
-  width: 50%;
-  padding: 10px;
-
+img {
+  width: 100%;
 }
 
-button {
-  margin-left: 10px !important;
-  border: 1px solid black !important;
+.navbar {
+  background-color: #e3f2fd;
+}
+.fa.fa-edit {
+  color: #18a2b9;
+}
+
+.list-group-item.delete:hover {
+  cursor: -webkit-grab;
+  background-color: pink;
+}
+
+.list-group-item.update:hover {
+  cursor: -webkit-grab;
+  background-color: gainsboro;
+}
+
+.list-group-item.board:hover {
+  cursor: -webkit-grab;
+  background-color: gainsboro;
+}
+
+.fa.fa-minus-circle {
+  color: red;
+}
+
+.landing {
+  position: relative;
+  /* background: url("../img/showcase.jpg") no-repeat; */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.landing-inner {
+  padding-top: 80px;
+}
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-form {
+  opacity: 0.9;
+}
+
+.latest-profiles-img {
+  width: 40px;
+  height: 40px;
+}
+
+.form-control::placeholder {
+  color: #bbb !important;
 }
