@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom"
-export class ProjectItem extends Component {
+import {PropTypes} from "prop-types";
+import {connect} from "react-redux"
+import { deleteProject } from '../../actions/projectActions';
+class ProjectItem extends Component {
+
+  onDeleteClick = id => {
+      this.props.deleteProject(id);
+  }
+
   render() {
     const { project } = this.props;
     return (
@@ -16,11 +24,11 @@ export class ProjectItem extends Component {
                     </div>
                     <div className="col-md-4 d-none d-lg-block">
                         <ul className="list-group">
-                            <a href="#">
+                            <Link to={`/projectBoard/${project.projectIdentifier}`}>
                                 <li className="list-group-item board">
                                     <i className="fa fa-flag-checkered pr-1"> Project Board </i>
                                 </li>
-                            </a>
+                            </Link>
                             <Link to={`/updateProject/${project.projectIdentifier}`}
                             state={{ project: project }} >
                                 <li className="list-group-item update">
@@ -28,11 +36,9 @@ export class ProjectItem extends Component {
                                 </li>
                             </Link>
 
-                            <a href="">
-                                <li className="list-group-item delete">
-                                    <i className="fa fa-minus-circle pr-1"> Delete Project</i>
-                                </li>
-                            </a>
+                            <li className="list-group-item delete" onClick={this.onDeleteClick.bind(this, project.projectIdentifier)}>
+                                <i className="fa fa-minus-circle pr-1"> Delete Project</i>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -42,4 +48,8 @@ export class ProjectItem extends Component {
   }
 }
 
-export default ProjectItem;
+ProjectItem.propTypes={
+    deleteProject: PropTypes.func.isRequired
+}
+
+export default connect(null, {deleteProject})(ProjectItem);

@@ -38,8 +38,7 @@ Dashboard.propTypes = {
   getProjects: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
-  project: state.project,
-  submitted: {}
+  project: state.project
 })
 
 export default connect(mapStateToProps, {getProjects})(Dashboard);
