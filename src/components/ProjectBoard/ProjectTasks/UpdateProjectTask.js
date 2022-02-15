@@ -5,23 +5,36 @@ import { updateProjectTask, getProjectTask } from '../../../actions/backlogActio
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import classnames from "classnames";
 function UpdateProjectTask(props) {
+  const { errors } = props;
+  const navigate = useNavigate();
+
+
+
   const location = useLocation();
 
-  const [projectTask, setProjectTask] = useState(location.state == null ? {} : location.state.projectTask);
+  const [projectTask, setProjectTask] = useState(location.state == null ? {summary: "",
+                                                                          acceptanceCriteria: "",
+                                                                          dueDate: "",
+                                                                          priority: "",
+                                                                          status: ""
+                                                                            } : location.state.projectTask);
   const [origProjectTask, setOrigProjectTask] = useState(projectTask);
 
-  const navigate = useNavigate();
   const params = useParams();
   const firstRun = useRef(true);
 
   const { id } = params;
   const { taskId } = params;
 
-  if(location.state == null && Object.keys(props.projectTask).length === 0) {
-    props.getProjectTask(id, taskId);
-  }
 
   useEffect(() => {
+    if(location.state == null && Object.keys(props.projectTask).length === 0 && !errors.projectNotFound) {
+        props.getProjectTask(id, taskId);
+    }
+    
+    if(errors.projectNotFound) {
+        navigate("/dashboard");
+    }
     if(Object.keys(props.projectTask).length !== 0 && firstRun.current) {
         setProjectTask(props.projectTask);
         setOrigProjectTask(props.projectTask);
@@ -39,8 +52,6 @@ function UpdateProjectTask(props) {
     setProjectTask(origProjectTask);
   }
 
-  const { errors } = props;
-
   return (
     <div className="add-PBI">
         <div className="container">
@@ -50,7 +61,7 @@ function UpdateProjectTask(props) {
                         Back to Project Board
                     </Link>
                     <h4 className="display-4 text-center">Update Project Task</h4>
-                    <p className="lead text-center">Project Name + Project Code</p>
+                    <p className="lead text-center">Project Name: {projectTask.projectIdentifier} + Project Task ID: {projectTask.projectSequence}</p>
                     <form onSubmit={onSubmit}>
                         <div className="form-group">
                             <input type="text" 
