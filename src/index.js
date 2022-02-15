@@ -11,6 +11,7 @@ import store from "./store";
 import UpdateProject from './components/Projects/UpdateProject';
 import ProjectBoard from './components/ProjectBoard/ProjectBoard';
 import AddProjectTask from './components/ProjectBoard/ProjectTasks/AddProjectTask';
+import UpdateProjectTask from './components/ProjectBoard/ProjectTasks/UpdateProjectTask';
 
 class App extends React.Component {
   render() {
@@ -25,6 +26,7 @@ class App extends React.Component {
               <Route path="updateProject/:id" element={<UpdateProject />} />
               <Route path="/projectBoard/:id" element={<ProjectBoard />} />
               <Route path="/addProjectTask/:id" element={<AddProjectTask />} />
+              <Route path="/updateProjectTask/:id/:taskId" element={<UpdateProjectTask />} />
             </Routes>
           </div>
         </Router>

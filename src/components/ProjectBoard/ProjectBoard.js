@@ -1,7 +1,43 @@
-import React from 'react'
-import {Link, useParams} from "react-router-dom"
+import React, { useEffect, useRef } from 'react'
+import { connect } from 'react-redux';
+import {Link, useNavigate, useParams} from "react-router-dom"
+import Backlog from './Backlog';
+import PropTypes from "prop-types";
+import { getBacklog } from '../../actions/backlogActions';
+
 function ProjectBoard(props) {
+    const {projectTasks} = props.backlog;
     const params = useParams();
+    const firstRun = useRef(true);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(firstRun.current) {
+            const {id} = params;
+            props.getBacklog(id);
+            firstRun.current = false;
+        }
+    })
+  
+  let BoardContent;
+  const boardAlgorithm = (errors, projectTasks) => {
+      if(projectTasks.length < 1) {
+          if(errors.projectNotFound) {
+              return (
+                  <div className="alert alert-danger text-center" role="alert">
+                    {errors.projectNotFound}
+                  </div>
+              )
+          } else {
+              return (
+                <div className="alert alert-info text-center" role="alert">
+                    No Project Tasks on this board
+                </div>
+              )
+          }
+      } else {
+          return <Backlog projectTasks={projectTasks}/>
+      }
+  }
 
   return (
      <div className="container">
@@ -10,73 +46,20 @@ function ProjectBoard(props) {
      </Link>
      <br />
      <hr />
-     {//<!-- Backlog STARTS HERE -->
-     }
-     <div className="container">
-         <div className="row">
-             <div className="col-md-4">
-                 <div className="card text-center mb-2">
-                     <div className="card-header bg-secondary text-white">
-                         <h3>TO DO</h3>
-                     </div>
-                 </div>
-
-                {// <!-- SAMPLE PROJECT TASK STARTS HERE -->
-                }
-                 <div className="card mb-1 bg-light">
-
-                     <div className="card-header text-primary">
-                         ID: projectSequence -- Priority: priorityString
-                     </div>
-                     <div className="card-body bg-light">
-                         <h5 className="card-title">project_task.summary</h5>
-                         <p className="card-text text-truncate ">
-                             project_task.acceptanceCriteria
-                         </p>
-                         <a href="#" className="btn btn-primary">
-                             View / Update
-                         </a>
-
-                         <button className="btn btn-danger ml-4">
-                             Delete
-                         </button>
-                     </div>
-                 </div>
-
-                {// <!-- SAMPLE PROJECT TASK ENDS HERE -->
-                }
-             </div>
-             <div className="col-md-4">
-                 <div className="card text-center mb-2">
-                     <div className="card-header bg-primary text-white">
-                         <h3>In Progress</h3>
-                     </div>
-                 </div>
-                {// <!-- SAMPLE PROJECT TASK STARTS HERE -->
-                }
-
-                { //<!-- SAMPLE PROJECT TASK ENDS HERE -->
-                }
-             </div>
-             <div className="col-md-4">
-                 <div className="card text-center mb-2">
-                     <div className="card-header bg-success text-white">
-                         <h3>Done</h3>
-                     </div>
-                 </div>
-                 { //<!-- SAMPLE PROJECT TASK STARTS HERE -->
-                }
-
-                {//  <!-- SAMPLE PROJECT TASK ENDS HERE -->
-                }
-             </div>
-         </div>
-     </div>
-
-    { //<!-- Backlog ENDS HERE --> 
-    }
- </div>
+    { boardAlgorithm(props.errors, projectTasks) }
+    </div>
   )
 }
 
-export default ProjectBoard;
+const mapStateToProps = state => ({
+    backlog: state.backlog,
+    errors: state.errors
+})
+
+ProjectBoard.propTypes = {
+    getBacklog: PropTypes.func.isRequired,
+    backlog: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps, {getBacklog})(ProjectBoard);
