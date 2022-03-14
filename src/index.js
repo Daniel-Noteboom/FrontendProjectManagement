@@ -90,7 +90,7 @@ class App extends React.Component {
                   <ProjectBoard />
                 </IsAuth>
               } />              
-              <Route path="addProjectTask" element={
+              <Route path="addProjectTask/:id" element={
                 <IsAuth redirectTo="/login" authNeeded ="true">
                   <AddProjectTask />
                 </IsAuth>
